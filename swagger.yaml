@@ -1,0 +1,163 @@
+openapi: 3.0.0
+info:
+  title: Misc-Service
+  description: Miscellaneous services.
+  version: 1.0.0
+
+servers:
+  - url: /misc/api/v1
+
+# Apply the security
+security:
+  - bearerAuth: [ ]         # use the same name as above
+
+paths:
+  /consumer:
+    get:
+      tags:
+        - Misc
+      summary: consumer types
+      description: Returns a list of consumer types
+      responses:
+        '200': # status code
+          description: A JSON array of consumer types
+
+  /identity:
+    get:
+      tags:
+        - Misc
+      summary: identity types
+      description: Returns a list of identity types
+      security:
+        - bearerAuth: [ ]
+      responses:
+        '200': # status code
+          description: A JSON array of identity types
+
+  /config:
+    get:
+      tags:
+        - Misc
+      summary: app config
+      description: Returns a configuration value
+      parameters:
+        - in: query
+          name: configName
+          required: true
+          schema:
+            type: string
+          description: The name of the configuration
+      responses:
+        '200': # status code
+          description:
+
+  /industry:
+    get:
+      tags:
+        - Misc
+      summary: Industry types
+      description: Returns a list of Industry types
+      responses:
+        '200': # status code
+          description: A JSON array of Industry types
+
+
+
+  /income:
+    get:
+      tags:
+        - Misc
+      summary: Income types
+      description: Returns a list of Income types
+      responses:
+        '200': # status code
+          description: A JSON array of Industry types
+
+
+  /business:
+    get:
+      tags:
+        - Misc
+      summary: Business types
+      description: Returns a list of Business types
+      responses:
+        '200': # status code
+          description: A JSON array of Business types
+
+  /nearbyagents:
+    get:
+      tags:
+        - Misc
+      summary: Locate Agent
+      description: Returns a list of Agents
+      parameters:
+        - in: query
+          name: lat
+          required: true
+          schema:
+            type: number
+          description: The latitude
+
+        - name: lng
+          in: query
+          required: true
+          schema:
+            type: number
+          description: The longitude
+
+      responses:
+        '200': # status code
+          description: A JSON array of Agents where each data point has address data along with distance key which is in KM
+
+  /notification/register:
+    post:
+      tags:
+        - Misc
+      summary: Register
+      description: Register a token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - deviceToken
+                - osType
+              properties:
+                deviceToken:
+                  type: string
+                osType:
+                  type: string
+      responses:
+        '200':
+          description: ''
+
+  /notification/unregister:
+    delete:
+      tags:
+        - Misc
+      summary: UnRegister
+      description: UnRegister a token
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - deviceToken
+              properties:
+                deviceToken:
+                  type: string
+      responses:
+        '200':
+          description: ''
+
+components:
+  securitySchemes:
+    bearerAuth: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
+
